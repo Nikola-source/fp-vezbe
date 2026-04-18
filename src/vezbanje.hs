@@ -54,3 +54,42 @@ fromList xs = foldr dodaj Prazno xs
 toList :: (Ord a) => Stablo a -> [a]
 toList Prazno = []
 toList (Stablo x levo desno) = x : ((toList levo) ++ (toList desno))
+
+
+data Broj = Jedan | Dva | Tri
+
+rotiraj :: Broj -> (a, a, a) -> (a, a, a)
+rotiraj Jedan (x, y, z) = (y, z, x)
+rotiraj Dva (x, y, z) = (z, x, y)
+rotiraj Tri (x, y, z) = (x, y, z) 
+
+unazad :: String -> String
+unazad "" = ""
+unazad str = (unwords . map reverse . words) str
+
+palindrom :: String -> Bool
+palindrom str 
+    | (removeSpaces str) == reverse (removeSpaces str) = True
+    | otherwise = False 
+
+removeSpaces :: String -> String
+removeSpaces str = foldl (\s acc -> s ++ acc) "" (words str)
+    
+printLine :: String -> IO()
+printLine str 
+    | palindrom str = putStrLn "Palindrom"
+    | otherwise = putStrLn (unazad str)
+
+main :: IO()
+main = do
+    line <- getLine
+    if null line then return()
+    else printLine line
+    main
+
+data Imenik = Imenik [Osoba]
+data Osoba = Osoba {ime :: String, telefon :: String, email :: String}
+
+noMail :: Imenik -> [(String, String)]
+noMail (Imenik []) = []
+noMail (Imenik  ((Osoba ime telefon mail):xs)) = (ime, telefon) : noMail (Imenik xs)

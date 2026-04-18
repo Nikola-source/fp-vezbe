@@ -144,7 +144,7 @@ instance Show Voce where
     show Kruska = "Kruska"
     show Sljiva = "Sljiva"
 
-instance {- (Eq m) => -} Eq (Maybe' m) where
+instance (Eq m) =>  Eq (Maybe' m) where
     Just' x == Just' y = x == y
     Nothing' == Nothing' = True
     _ == _ = False
